@@ -1,0 +1,21 @@
+version: "2"
+
+services:
+  kafka:
+    image: kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+  zookeeper:
+    image: kafka
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+volumes:
+  kafka_data:
+    driver: local
