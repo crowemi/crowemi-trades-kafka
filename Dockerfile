@@ -4,9 +4,12 @@ RUN apt update && \
     apt install --no-install-recommends -y -q curl default-jdk nano systemctl
 # zookeeperd
 
-# Expose Kafka/Zookeeper ports
+# Expose kafka ports
 EXPOSE 9092
+EXPOSE 9080
+# Expose zookeeper ports
 EXPOSE 2181
+EXPOSE 2180
 
 # Set environment variables
 ENV KAFKA_VERSION=3.5.0
@@ -23,5 +26,8 @@ RUN rm -r /downloads
 COPY ./services/zookeeper.service /etc/systemd/system/
 COPY ./services/kafka.service /etc/systemd/system/
 
+COPY ./config/zookeeper.properties /kafka/config/zookeeper.properties
+
 ENTRYPOINT [ "sh" ] 
+# CMD [ "/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties" ]
 # CMD [ "/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties" ]
