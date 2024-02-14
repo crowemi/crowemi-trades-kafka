@@ -2,7 +2,6 @@ FROM ubuntu:22.04
 
 RUN apt update && \
     apt install --no-install-recommends -y -q curl default-jdk nano systemctl
-# zookeeperd
 
 # Expose kafka ports
 EXPOSE 9092
@@ -27,7 +26,6 @@ COPY ./services/zookeeper.service /etc/systemd/system/
 COPY ./services/kafka.service /etc/systemd/system/
 
 COPY ./config/zookeeper.properties /kafka/config/zookeeper.properties
+COPY ./config/server.properties /kafka/config/server.properties
 
 ENTRYPOINT [ "sh" ] 
-# CMD [ "/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties" ]
-# CMD [ "/kafka/bin/kafka-server-start.sh", "/kafka/config/server.properties" ]

@@ -2,20 +2,27 @@ version: "2"
 
 services:
   kafka:
-    image: kafka
+    image: kafka-base
     container_name: kafka
+    network_mode: "host"
     ports:
       - "9092:9092"
-    volumes:
-      - "kafka_data:/bitnami"
-    environment:
-      - ALLOW_PLAINTEXT_LISTENER=yes
+      - "9080:9080"
+    expose:
+      - "9092"
+      - "9080"
+    entrypoint: "sh /kafka/bin/kafka-server-start.sh /kafka/config/server.properties"
+    depends_on:
+      - zookeeper
+
   zookeeper:
-    image: kafka
+    image: kafka-base
     container_name: zookeeper
+    network_mode: "host"
     ports:
       - "2181:2181"
-
-volumes:
-  kafka_data:
-    driver: local
+      - "2180:2180"
+    expose:
+      - "2181"
+      - "2180"
+    entrypoint: "sh /kafka/bin/zookeeper-server-start.sh /kafka/config/zookeeper.properties"
